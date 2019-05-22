@@ -39,7 +39,6 @@ public class Problem6087 {
 		PriorityQueue<Pair> q = new PriorityQueue<>();
 		char[][] a = new char[H][W];
 		int[][] dist = new int[H][W];
-		boolean[][][] visited = new boolean[4][H][W];
 		for(int i=0, index=0; i<H; i++) {
 			String s = sc.next();
 			for(int j=0; j<W; j++) {

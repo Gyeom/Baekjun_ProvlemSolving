@@ -1,63 +1,57 @@
 package baekjun;
 
-import java.util.ArrayDeque;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
 
 public class Problem14226 {
-	public static class Pair{
-		int data;
-		int time;
-		int clip;
-		
-		
-		//2배로 늘어나는게 아니라, 현재 클립에 저장되어있는 이모티콘 개수를 더하는 것. 그래서visited[][clip]일때 clip도 1001이어야한ㄹ듯
-		public Pair(int data, int time, int clip) {
-			this.data = data;
-			this.time = time;
-			this.clip = clip;
+	static class Emoticon{
+		int n;
+		boolean clip;
+		int clipNum;
+		int t;
+		Emoticon(int n, boolean clip, int clipNum, int t){
+			this.n=n;
+			this.clip=clip;
+			this.clipNum=clipNum;
+			this.t=t;
 		}
 	}
 	public static void main(String args[]) {
-		Scanner sc = new Scanner(System.in);
-		int S = sc.nextInt();
-		boolean[][][] visited = new boolean[1001][1001][2];
-		Queue<Pair> q = new LinkedList<>();
-		int ans=0;
-
-
-		Pair p= new Pair(1,0,0);
-		q.add(p);
-
-		label:
-			while(!q.isEmpty()) {
-				p = q.remove();
-
-				if(p.data==S) {
-					ans = p.time;
-					break label;
-				}
-				for(int r : new int[] {p.data+p.clip,p.data,p.data-1}) {
-					if(r<0||r>1000) continue;
-					if(visited[r][p.clip][1]) continue;
-
-					if(r==p.data&&!visited[p.data][p.clip][0]) {
-						q.add(new Pair(p.data,p.time+1,p.data));
-						visited[p.data][p.clip][0]=true; 
-					}else if(r==p.data+p.clip&&visited[p.data][p.clip][0]&&!visited[p.data+p.clip][p.clip][0]) { 
-						q.add(new Pair(p.data+p.clip,p.time+1,p.clip));
-						visited[p.data][p.clip][1]=true;
-					}else if(r==p.data-1&&visited[p.data][p.clip][1]&&!visited[r][p.clip][0]) {
-						q.add(new Pair(r,p.time+1,p.clip));
-					}
-
-				}
-
-				
-
-
+		Scanner sc= new Scanner(System.in);
+		int N = sc.nextInt();
+		Queue<Emoticon> q = new LinkedList<>();
+		boolean[][] visited = new boolean [1001][1001];
+		q.add(new Emoticon(1, false, 0,0));
+		visited[N][0]=true;
+		while(!q.isEmpty()) {
+			Emoticon p = q.remove();
+			if(p.n==N) {
+				System.out.println(p.t);
+				break;
 			}
-		System.out.println(ans);
+			for(int k=0; k<3; k++) {
+				boolean rclip = p.clip;
+				int rclipNum = p.clipNum;
+				int rn = p.n;
+				//저장
+				if(k==0) {
+					rclip = true;
+					rclipNum = rn;
+				//붙여넣기
+				}else if(k==1) {
+					if(!rclip) continue;
+					rn += rclipNum;
+				//삭제
+				}else {
+					rn--;
+				}
+				
+				if(rn<1||rn>1000) continue;
+				if(visited[rn][rclipNum]) continue;
+				visited[rn][rclipNum]=true;
+				q.add(new Emoticon(rn, rclip, rclipNum,p.t+1));
+			}
+		}
 	}
 }

@@ -51,7 +51,7 @@ public class Problem4991_v2 {
 								if(n==start.get(j).y&&m==start.get(j).x) {
 									if(temp[n][m]==-1) {
 										System.out.println("-1");
-										break outloof;
+										continue outloof;
 									}
 								
 									d[i][j]=temp[n][m];

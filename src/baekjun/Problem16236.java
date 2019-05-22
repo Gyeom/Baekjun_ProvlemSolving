@@ -48,22 +48,15 @@ public class Problem16236 {
 				m = q.remove();
 				if((dist[m.y][m.x]>minTime))break;
 				if((a[m.y][m.x]<myLv)&&(a[m.y][m.x]!=0)) {
-					if(m.x==2&&m.y==2) {
-					}
 						if(m.y<row) {
 							row= m.y;
 							col= m.x;
 							minTime = dist[m.y][m.x];
-							
 						}else if((m.y==row)&&(m.x<col)) {
 							row = m.y;
 							col = m.x;
-							
-							
 							minTime = dist[m.y][m.x];
 						}
-						
-						
 					continue;
 				}
 				
